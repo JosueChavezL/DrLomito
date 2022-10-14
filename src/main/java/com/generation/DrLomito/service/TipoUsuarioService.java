@@ -35,15 +35,15 @@ public class TipoUsuarioService {
 		return tmpTipoUsuario;
 	}//delete tipo usuario
 
-	public TipoUsuario addTipoUsuario(TipoUsuario nuevo_tipo) {
-		return tipoUsuarioRepository.save(nuevo_tipo);		
+	public TipoUsuario addTipoUsuario(TipoUsuario tipo_usuario_nombre) {
+		return tipoUsuarioRepository.save(tipo_usuario_nombre);		
 	}//agregar tipo de usuario
 	
 	public TipoUsuario updateTipoUsuario(Long id, String tipo_usuario_nombre) {
 		TipoUsuario tmpTipoUsuario = null;
 		if(tipoUsuarioRepository.existsById(id)) {
 			tmpTipoUsuario = tipoUsuarioRepository.findById(id).get();
-			if(tipo_usuario_nombre!=null) tmpTipoUsuario.setTipoUsuarioNombre(tipo_usuario_nombre);
+			if(tipo_usuario_nombre!=null) tmpTipoUsuario.setTipo_usuario_nombre(tipo_usuario_nombre);
 			
 			tipoUsuarioRepository.save(tmpTipoUsuario);
 		}else{

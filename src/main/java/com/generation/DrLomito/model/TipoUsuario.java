@@ -13,9 +13,8 @@ public class TipoUsuario {
 
 	@Id //Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //Que se genera automaticamente
-	@Column(name="tipo_usuario_id", unique=true, nullable=false) //Unico y no nulo
-	private Long tipo_usuario_id; //Read-only
-	@Column(name="tipo_usuario_nombre", nullable=false)
+	@Column(unique=true, nullable=false) //Unico y no nulo
+	private Long tipo_usuario_id; //Read-only	
 	private String tipo_usuario_nombre;	
 	
 	//1.Constructor normal y vacio
@@ -29,15 +28,15 @@ public class TipoUsuario {
 	
 	public TipoUsuario () {} //Constructor vacio
 
-	public String getTipoUsuarioNombre() {
+	public String getTipo_usuario_nombre() {
 		return tipo_usuario_nombre;
 	}//getTipoUsuarioNombre
-
-	public void setTipoUsuarioNombre(String tipo_usuario_nombre) {
+	
+	public void setTipo_usuario_nombre(String tipo_usuario_nombre) {
 		this.tipo_usuario_nombre = tipo_usuario_nombre;
 	}//setTipoUsuarioNombre
 
-	public Long getTipoUsuarioId() {
+	public Long getTipo_usuario_id() {
 		return tipo_usuario_id;
 	}//getTipoUsuarioId
 

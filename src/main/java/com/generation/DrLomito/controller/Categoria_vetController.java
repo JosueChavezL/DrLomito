@@ -58,9 +58,9 @@ public class Categoria_vetController {
 		//@PutMapping
 		@PutMapping(path="{categoria_id}")
 		public Categoria_vet updateCategoria(@PathVariable("categoria_id") Long id, 
-			@RequestParam (required=false)String nombre)
+			@RequestParam (required=false)String categoria_nombre)
 			 {
-			return categoria_vetService.updateCategoria(id, nombre);
+			return categoria_vetService.updateCategoria(id, categoria_nombre);
 
 		}
 	

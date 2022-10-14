@@ -48,15 +48,11 @@ public class Categoria_vetService {
 		Categoria_vet tmpProd=null;
 		if (categoria_vetRepository.existsById(id)) {
 			tmpProd=categoria_vetRepository.findById(id).get();
-			if (nombre!=null) tmpProd.setCategoria_nombre(nombre);
-	
-					
+			if (nombre!=null) tmpProd.setCategoria_nombre(nombre);					
 			categoria_vetRepository.save(tmpProd);
 		}else{
-			System.out.println("update -la categoria con id "+id+" no existe.");
-			System.out.print("hola");
-		}//if exist
-		
+			System.out.println("update -la categoria con id "+id+" no existe.");			
+		}//if exist		
 		return tmpProd;
 	}//update
 	

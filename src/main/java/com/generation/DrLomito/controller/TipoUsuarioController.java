@@ -45,8 +45,8 @@ public class TipoUsuarioController {
 	}//borra un solo tipo usuario
 	
 	@PostMapping
-	public TipoUsuario addTipoUsuario(@RequestBody TipoUsuario tipousuario) {
-		return tipoUsuarioService.addTipoUsuario(tipousuario);
+	public TipoUsuario addTipoUsuario(@RequestBody TipoUsuario tipo_usuario_nombre) {
+		return tipoUsuarioService.addTipoUsuario(tipo_usuario_nombre);
 	}//add tipo de usuario
 	
 	@PutMapping(path="{tipousuarioId}")
