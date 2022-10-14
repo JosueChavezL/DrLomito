@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.generation.DrLomito.service.Categoria_vetRepository;
 import com.generation.DrLomito.model.Categoria_vet;
 @Service
 public class Categoria_vetService {
