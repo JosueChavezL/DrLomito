@@ -1,6 +1,8 @@
 package com.generation.DrLomito.service;
 
 import java.util.List;
+import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,25 +42,47 @@ public class UsuariosService {
 		return usuariosRepository.save(usuarios);
 	}//addUsuarios
 	
-	public Usuarios updateUsuarios(Long id, String usuario_nombre, String usuario_correo, 
-			String usuario_contrasena, String veterinario_url_imagen, Long tipo_usuario_id) {
+	public Usuarios updateUsuarios(Long id, String usuario_nombre, String veterinario_url_imagen, Long tipo_usuario_id) {
 		Usuarios tmpUs = null;
 		if(usuariosRepository.existsById(id)) {
 			tmpUs = usuariosRepository.findById(id).get();
-			if(usuario_nombre!=null) tmpUs.setUsuario_nombre(usuario_nombre);
-			if(usuario_correo!=null) tmpUs.setUsuario_correo(usuario_correo);
-			if(usuario_contrasena!=null) tmpUs.setUsuario_contrasena(usuario_contrasena);
+			if(usuario_nombre!=null) tmpUs.setUsuario_nombre(usuario_nombre);						
 			if(veterinario_url_imagen!=null) tmpUs.setVeterinario_url_imagen(veterinario_url_imagen);
 			if(tipo_usuario_id!=null) tmpUs.setTipo_usuario_id(tipo_usuario_id.longValue());
 			usuariosRepository.save(tmpUs);
 		}else {
-			System.out.println("Update - El Usuario con el id "
-					           + id + "no existe. ");
+			System.out.println("Update - El Usuario con el id "+ id + "no existe. ");
 		}//if / else exist
 			return tmpUs;
 		
 	}//updateUsuario
 	
-	
+	public boolean validaUsuario(Usuarios usuario) {
+		boolean res = false;
+		Optional<Usuarios> userByUsername = usuariosRepository.findByUsername(usuario.getUsuario_correo());
+		if(userByUsername.isPresent()) {
+			Usuarios u = userByUsername.get();
+			if(u.getUsuario_contrasena().equals(usuario.getUsuario_contrasena())) {
+				res = true;
+			}//if password			
+		}//if password		
+		return res;
+	}//validaUsuario
+
+	public Usuarios updateUserPsw(Long id, String password, String newPassword) {
+		Usuarios tmpUs = null;
+		if(usuariosRepository.existsById(id)) {
+			tmpUs = usuariosRepository.findById(id).get();
+			if(password!=null && newPassword != null) {
+				if(password.equals(tmpUs.getUsuario_contrasena())) {
+					tmpUs.setUsuario_contrasena(newPassword);
+				}//si password actual es igual al password enviado en body
+			}//si hay cambio de password			
+			usuariosRepository.save(tmpUs);
+		}else {
+			System.out.println("Update - El Usuario con el id "+ id + "no existe. ");
+		}//if / else exist
+			return tmpUs;		
+	}//cambiar password
 	
 }//class UsuariosService
