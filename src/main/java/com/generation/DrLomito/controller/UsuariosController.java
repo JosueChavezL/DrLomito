@@ -2,6 +2,7 @@ package com.generation.DrLomito.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.generation.DrLomito.model.ChangePassword;
 import com.generation.DrLomito.model.Usuarios;
 import com.generation.DrLomito.service.UsuariosService;
 
@@ -56,14 +58,21 @@ public class UsuariosController {
 	
 	@PutMapping (path="{usId}")
 	public Usuarios updateUsuarios(@PathVariable("usId") Long id,
-		@RequestParam(required = false) String usuario_nombre,
-		@RequestParam(required = false) String usuario_correo,
-		@RequestParam(required = false) String usuario_contrasena,
+		@RequestParam(required = false) String usuario_nombre,		
 		@RequestParam(required = false) String veterinario_url_imagen,
 		@RequestParam(required = false) Long tipo_usuario_id){
-			return usuariosService.updateUsuarios(id, usuario_nombre, usuario_correo, usuario_contrasena, veterinario_url_imagen, tipo_usuario_id);
+			return usuariosService.updateUsuarios(id, usuario_nombre, veterinario_url_imagen, tipo_usuario_id);
 		
-	}//updateUsuarios
+	}//updateUsuarios sin contrasena
+	
+	@PutMapping (path="psw/{usId}")
+	public Usuarios updateUserPsw(@PathVariable("usId") Long id,				
+		@RequestBody (required = false) ChangePassword changePassword)
+	{
+			return usuariosService.updateUserPsw(id, changePassword.getPassword(), changePassword.getNewPassword());
+		
+	}//actualizar solo el password
+	
 	
 	
 }//class UsuariosController
