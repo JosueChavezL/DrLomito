@@ -13,8 +13,6 @@ let btnInicio = document.getElementById("btnInicio");
 let flagReady = false;
 let listUsuarios = [];
 
-
-
 btnInicio.addEventListener("click", function (e){
 e.preventDefault();
 

@@ -1,6 +1,4 @@
 
-
-import { veterinario } from "../js/classes.js";
 let btnAgregar = document.getElementById("btnAgregar");
 let campoNombre = document.getElementById("inputNombre"); //trae valor string
 let campoEspecialidad = document.getElementById("inputEspecialidad"); //ya
@@ -16,11 +14,10 @@ let campoHoraCie = document.getElementById("inputHoraCie");//ya
 let campoCategoria = document.getElementById("listCat");
 let campo247 = document.getElementById("input247");
 
-let listVetsAdd = [];
-let imagenTemp = "../src/veterinarios/vet17.jpg"; 
-let puntuacionTemp = 5;
-let indexVets = 0;
-let passVet = "";//Aquí guardamos la contrasena ingresada por el usuario en la pagina de registro
+let listUsuarios = [];
+let listCat = [];
+
+
 
 window.addEventListener("load", function(e){
     if(localStorage.getItem("nameRegisterVet") && localStorage.getItem("correoRegisterVet")){
@@ -271,24 +268,52 @@ btnAgregar.addEventListener("click", function (e) {
     e.preventDefault(); 
     let url = "/api/info_veterinarios/";
     let url2 = "/api/contactoVet/"; 
-      
-    let categoria = campoCategoria.options[campoCategoria.selectedIndex].value;    
+    let url3 = "/api/usuarios/"; 
+    
+    let idUser;  
+    let categoriaSelec = campoCategoria.options[campoCategoria.selectedIndex].value; 
+    let catActual = convertCat(categoriaSelec);   
     
     if(validarNombre() && validarEspecialidad() && validarDescripcion() && validarCategoria()&& validarServicios() && validarDireccion()
     && validarConsulta() && validarTelLocal() && validarTelPersonal() && validarHoraIni() && validarHoraCie() && validarCorreo()){
        
-        let dataInfo={    
+        fetch(url3, {
+		  method: 'GET',
+		  headers:{'Content-Type': 'application/json'}
+		}).then(res => res.json())
+		.catch(error => console.error('Error:', error))
+		.then(function(usuarios){	
+		listUsuarios = usuarios;		
+		for(let i=0;  i < listUsuarios.length; i++){
+			if(listUsuarios[i].usuario_correo == campoCorreo.value){
+				idUser = listUsuarios[i].id;				
+				break;
+		   		}//if obtener id del usuario
+		}//for para recorrer a los usuarios
+		
+		let dataInfo ={    
        
-        categoria_vet_categoria_id: 11,
-        usuarios_usuario_id: 9,
-        veterinario_especialidad: "Odontólogo Felinos Grandes",
-        veterinario_calificacion: 5,
-        veterinario_descripcion: "Soy un profesional de la salud apasionado por el cuidado bucal de los tigres y leones en cautiverio",
-        veterinario_servicios: "Profilaxis completa y remoción de sarro $2500 MXN",
-        veterinario_costo_consulta: 800.0
+        categoria_vet_categoria_id: catActual,
+        usuarios_usuario_id: idUser,
+        veterinario_especialidad: campoEspecialidad.value,
+        veterinario_calificacion: 0,
+        veterinario_descripcion: campoDescripcion.value,
+        veterinario_servicios: campoServicios.value,
+        veterinario_costo_consulta: campoConsulta.value
     
-		}//cuerpo de la infor del veterinario
-            fetch(url, {
+		}//cuerpo de la info del veterinario
+		
+		let dataContacto = {		
+        veterinario_direccion: campoDireccion.value,
+        veterinario_telefono1: campoTelLocal.value,
+        veterinario_telefono2: campoTelPersonal.value,
+        veterinario_horario_inicio: campoHoraIni.value,
+        veterinario_horario_cierre: campoHoraCie.value,
+        veterinario_atencion_urgencias: true,
+        usuarios_usuario_id: idUser    
+		}//cuerpo para el post de contacto
+		   
+		    fetch(url, {
 			  method: 'POST', // or 'PUT'
 			  body: JSON.stringify(dataInfo), // data can be `string` or {object}!
 			  headers:{
@@ -297,10 +322,20 @@ btnAgregar.addEventListener("click", function (e) {
 			}).then(res => res.json())
 			.catch(error => console.error('Error:', error))
 			.then(function (infoVet){
+				console.log(infoVet);
 				
-                
-             });//POST info VET   
-                Swal.fire({
+				fetch(url2, {
+			  method: 'POST', // or 'PUT'
+			  body: JSON.stringify(dataContacto), // data can be `string` or {object}!
+			  headers:{
+			    'Content-Type': 'application/json'
+			  }
+			}).then(res => res.json())
+			.catch(error => console.error('Error:', error))
+			.then(function (infoContacto){
+				console.log(infoContacto); 
+				  
+				Swal.fire({
                     background: '#FFF9E3',
                     position: 'center',
                     icon: 'success',
@@ -311,14 +346,15 @@ btnAgregar.addEventListener("click", function (e) {
                     })
                           
                 
-                setTimeout( ()=>{    
-                    campoNombre.value = localStorage.removeItem("nameRegisterVet");
-                    campoCorreo.value = localStorage.removeItem("correoRegisterVet");                        
+               setTimeout( ()=>{                                             
                     location.href = "http://localhost:8080/pages/logIn.html";
+                    localStorage.removeItem("nameRegisterVet");
+                    localStorage.removeItem("correoRegisterVet"); 
             }, 3000);
-        
-       
-        
+				             
+             });//POST contacto VET                 
+             });//POST info VET 		   	 
+		});//get todos los usuarios	   
     }else{
         validarNombre() ; validarEspecialidad() ; validarDescripcion() ; validarServicios() ; validarDireccion();
      validarConsulta() ; validarTelLocal() ; validarTelPersonal() ; validarHoraIni() ; validarHoraCie() ; validarCorreo()
@@ -330,60 +366,61 @@ btnAgregar.addEventListener("click", function (e) {
         showConfirmButton: false,
         timer: 1500,
         timerProgressBar: true
-      })
-    }
+      })//sweet
+    }//si no se validan los campos
     
        
 })//Evento click
-function checkCat(nombreCat){
+
+function convertCat(nombreCat){
 	let c = "";
 	switch (nombreCat){
-		case "Veterinario General":
-			c="vetG";
+		case "vetG":
+			c="1";
 			break;
 			
-		case "Veterinario Aviar":
-				c="vetAv";
+		case "vetAv":
+				c="2";
 				break;
 		
-		case "Veterinario Reptiles":
-				c="vetRep";
+		case "vetRep":
+				c="3";
 				break;
 		
-		case "Veterinario Ganadería":
-				c="vetGan";
+		case "vetGan":
+				c="4";
 				break;
 				
-		case "Veterinario Ortopedista":
-				c="vetOrt";
+		case "vetOrt":
+				c="5";
 				break;
 				
-		case "Veterinario Cirujano":
-				c="vetCir";
+		case "vetCir":
+				c="6";
 				break;
 				
-		case "Veterinario Oncólogo":
-				c="vetOnc";
+		case "vetOnc":
+				c="7";
 				break;
 				
-		case "Veterinario Oftalmólogo":
-				c="vetOft";
+		case "vetOft":
+				c="8";
 				break;
 				
-		case "Veterinario Fisioterapeuta":
-				c="vetFis";
+		case "vetFis":
+				c="9";
 				break;
 				
-		case "Veterinario Dermatólogo":
-				c="vetDer";
+		case "vetDer":
+				c="10";
 				break;
 				
-		case "Veterinario Odontólogo":
-				c="vetOdo";
+		case "vetOdo":
+				c="11";
 				break;
 				
-		case "Otros":
-				c="otros";
+		case "otros":
+				c="12";
 				break;
 				
 		default:
