@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name="categoria_vet")
 public class Categoria_vet {
 //pojo
 	@Id
