@@ -59,7 +59,7 @@ fetch(url, {
             timerProgressBar: true
             })//SWEET ALERT
        localStorage.setItem("loggedIn", "true")
-       setTimeout( ()=>{location.href = "http://localhost:8080/index.html";}, 2500);
+       setTimeout( ()=>{location.href = "/index.html";}, 2500);
 	}else{
 		console.log("Hay un error en el usuario o contraseña ");
 	Swal.fire({

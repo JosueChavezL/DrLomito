@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 2751cb3dd0fb64b9bfe5f29ee5bbbf7b33e073a1 Josue Chavez <josue.chavezlomeli@gmail.com> 1666313243 -0500	commit (initial): Primer deploy de DrLomito
+2751cb3dd0fb64b9bfe5f29ee5bbbf7b33e073a1 fc13cd13e7085fcdbf1e7c55f5952294bee29f7f Josue Chavez <josue.chavezlomeli@gmail.com> 1666314174 -0500	commit: Se obliga a borrar todas las apis por error en la primer carga
+fc13cd13e7085fcdbf1e7c55f5952294bee29f7f 7a064b1680d0fd9ded675740e3db34b1d7c6126d Josue Chavez <josue.chavezlomeli@gmail.com> 1666322047 -0500	commit: Se cambia properties para que ya solo valide la base de datos
+7a064b1680d0fd9ded675740e3db34b1d7c6126d 1c205adc52703d186eccaeed103a5d8a0e83e5fd Josue Chavez <josue.chavezlomeli@gmail.com> 1666323179 -0500	commit: Se modifican rutas de redireccionamiento

@@ -125,11 +125,11 @@ if(validarNombre() && validarCorreo() && validarPass() && validarPassCon()){
 		if(flag2){	
 			if(vetCheck.checked){
 				tipoUsuario = 2;
-				urlRedir = "http://localhost:8080/pages/ingresarVet.html";
+				urlRedir = "/pages/ingresarVet.html";
 				urlImg = "../src/veterinarios/vet17.jpg";
 			}else{
 				tipoUsuario = 1;
-				urlRedir = "http://localhost:8080/pages/logIn.html";
+				urlRedir = "/pages/logIn.html";
 				urlImg = "../src/veterinarios/vet5.jpg";
 			}//Si no es un usuario veterinario, entonces si haz el post
 						

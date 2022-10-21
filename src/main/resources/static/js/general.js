@@ -37,7 +37,7 @@ if((localStorage.getItem("loggedIn"))== "true"){
   loggedIn.addEventListener("click", function(e){
     localStorage.setItem("loggedIn", "false");
     localStorage.removeItem("userLogged");
-    location.href = "http://127.0.0.1:5501/pages/index.html"
+    location.href = "/index.html"
   })//Escuchar cuando cierren sesion
 
 }else{

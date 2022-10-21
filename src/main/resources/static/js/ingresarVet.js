@@ -347,7 +347,7 @@ btnAgregar.addEventListener("click", function (e) {
                           
                 
                setTimeout( ()=>{                                             
-                    location.href = "http://localhost:8080/pages/logIn.html";
+                    location.href = "/pages/logIn.html";
                     localStorage.removeItem("nameRegisterVet");
                     localStorage.removeItem("correoRegisterVet"); 
             }, 3000);
